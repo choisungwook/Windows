@@ -11,4 +11,9 @@
         #elif MACHINE_32
         typedef short int16;
         #endif
-
+//P : 포인터  //C : const //W :unicod //STR : char //H : 핸들타입 //U unsigned
+PUINT : unsigned int*
+PSTR : char *
+PCSTR : const char*
+PWSTR : wchar_t*
+PCWSTR: const wchar_t*

@@ -11,4 +11,4 @@
         #elif MACHINE_32
         typedef short int16;
         #endif
-ㅁ
+

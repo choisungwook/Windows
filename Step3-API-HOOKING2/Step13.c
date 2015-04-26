@@ -9,40 +9,51 @@
 
 void Replace(HMODULE hExe, const char* dllname, DWORD api, DWORD func)
 {
-	//1.실행파일 주소(hExe)에서 IAT의 주소를 찾는다
+	//1. 실행파일 주소(hExe)에서 IAT의 주소를 찾는다.
 	ULONG size = 0;
-	IMAGE_IMPORT_DESCRIPTOR* pImage = (IMAGE_IMPORT_DESCRIPTOR*)
-		::ImageDirectoryEntryToData(hExe, TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size);
-	printf("IAT의 주소 %p\n", pImage);
+	IMAGE_IMPORT_DESCRIPTOR* pImage = (IMAGE_IMPORT_DESCRIPTOR*)::ImageDirectoryEntryToData(hExe, TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size);
 
-	//-----------------------------------------------------------------
-	//원하는 DLL의 항목을 관리하는 곳을 찾는다
-	for (; pImage->Name != 0; pImage++){
-		char *s = ((char*)hExe + pImage->Name);
-		if (strcmpi(s, dllname) == 0)
-			break;
+	printf("IAT의 주소 :%p\n", pImage);
+	//------------------------------------------------------------
+	//원하는 DLL의 항목을 관리하는 곳을 찾는다. 
+	for (; pImage->Name != 0; pImage++)
+	{
+		char* s = ((char*)hExe + pImage->Name); //실행파일주소 + 주소
+
+		if (strcmpi(s, dllname) == 0) break;  // 대소문자 상관없이 비교
+
 	}
 
 	if (pImage->Name == 0)
+	{
 		printf("%s DLL을 사용하지 않습니다\n", dllname);
+	}
 	else
+	{
 		printf("%s DLL을 관리하는 항목 : %p\n", dllname, pImage);
+	}
 
-	//----------------
-	//함수 주소 table에서 원하는 항목을 찾아서 덮어 쓴다
-	IMAGE_THUNK_DATA* pThunk = (IMAGE_THUNK_DATA*)
-		((char*)hExe + pImage->FirstThunk);
+	//--------------------------------------------------------------
+	// 함수주소 Table에서 원하는 항목을 찾아서 덮어 쓴다.
 
-	for (; pThunk->u1.Function != 0; pThunk++){
-		DWORD *p = &(pThunk->u1.Function);
-		//p메모리 보호속성을 변경합니다.
-		DWORD old;
-		VirtualProtect(p, sizeof(DWORD), PAGE_READWRITE, &old);
-		*p = func; //덮어쓴다
+	IMAGE_THUNK_DATA* pThunk =
+		(IMAGE_THUNK_DATA*)((char*)hExe + pImage->FirstThunk);
 
-		//예전 보호속성으로 다시 변경
-		VirtualProtect(p, sizeof(DWORD), old, &old);
-		
+	for (; pThunk->u1.Function != 0; pThunk++)
+	{
+		if (pThunk->u1.Function == api)
+		{
+			DWORD* p = &(pThunk->u1.Function);
+
+			// p 메모리의 보호속성을 변경합니다.
+			DWORD old;
+			VirtualProtect(p, sizeof(DWORD), PAGE_READWRITE, &old);
+
+			*p = func; // 덮어쓴다.
+
+			// 예전 보호속성으로 다시 변경
+			VirtualProtect(p, sizeof(DWORD), old, &old);
+		}
 	}
 }
 

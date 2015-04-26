@@ -4,6 +4,7 @@
 4.c - 두 개이상의 쓰레드 대기
 TLS.c - 쓰레드별로의 전역변수
 Volatile.c  - Release 모드 최적화 모드 막음
+InterlockedIncrement.c - 적은 내용으로 임계영역을 막기 위해 어셈코드로 변경
 
 TLS(Thread local Sotrage), TSS(Thread Specific Sotrage)
 스레드당 한개의 static 메모리 공간

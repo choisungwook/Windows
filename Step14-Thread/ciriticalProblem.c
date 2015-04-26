@@ -6,7 +6,7 @@ CRITICAL_SECTION cs; //cs에는 하나의 스레드만 들어갈 수 있다.
 
 void delay()
 {
-	for (int i = 0; i < 10000000; i++);
+	for (int i = 0; i < 10000; i++);
 }
 
 DWORD __stdcall foo(void *p)
@@ -15,6 +15,7 @@ DWORD __stdcall foo(void *p)
 	static int x = 0;
 	for (int i = 0; i < 20; i++)
 	{
+		//Serialization : 직렬화
 		EnterCriticalSection(&cs); //cs에 들어간다
 		//------------------------
 		x = 100; delay();

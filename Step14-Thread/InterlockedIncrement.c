@@ -36,6 +36,11 @@ DWORD __stdcall foo(void *p)
 		InterlockedIncrement(&x);
 		//x = 0; 멀티스레드에서는 이렇게 도 안됩니다.
 		//InterlockedExchange(&x, 0);
+
+		//lock Free : 락(동기화객체)를 사용하지 말자는것
+		//		실전 : OS의 동기화 도구를 사용하지 말자
+		//		CPU의 기본 lock명령만으로 멀티스레드에 안전한
+		//		자료구조를 만드는 개념
 	}
 	return 0;
 }

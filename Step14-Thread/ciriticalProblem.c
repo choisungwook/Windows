@@ -6,7 +6,7 @@ CRITICAL_SECTION cs; //cs에는 하나의 스레드만 들어갈 수 있다.
 
 void delay()
 {
-	for (int i = 0; i < 10000; i++);
+	for (int i = 0; i < 10000000; i++);
 }
 
 DWORD __stdcall foo(void *p)
@@ -32,6 +32,7 @@ DWORD __stdcall foo(void *p)
 
 int main()
 {
+	InitializeCriticalSection(&cs);
 	//foo("A");
 	HANDLE h1 = CreateThread(0, 0, foo, "A", 0, 0);
 	HANDLE h2 = CreateThread(0, 0, foo, "B", 0, 0);
@@ -41,6 +42,7 @@ int main()
 	WaitForMultipleObjects(2, h, TRUE, //모두 종료될때까지
 		INFINITE);
 
+	DeleteCriticalSection(&cs);
 	//리눅스
 	//pthread_join(h1)
 	//pthread_join(h2)

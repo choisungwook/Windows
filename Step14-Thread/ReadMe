@@ -2,7 +2,7 @@
 2.c - flag로 무한루프 (최악 소스)
 3.c - 쓰레드 구조체 signal 대기
 4.c - 두 개이상의 쓰레드 대기
-
+TLS.c - 쓰레드별로의 전역변수
 
 TLS(Thread local Sotrage), TSS(Thread Specific Sotrage)
 스레드당 한개의 static 메모리 공간

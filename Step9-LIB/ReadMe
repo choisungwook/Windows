@@ -1,3 +1,8 @@
 // cl add.c \c
 // cl sub.c \c
 //lib add.obj sub.obj /out:math.lib
+
+
+결론 c/c++에서 모두 사용가능한 라이브러리를 만들려면
+1. 라이브러리 자체는 .c로해서 name mangling을 막고
+2. 헤더는 c/c++ 사용자를 모두 고려해서 위처럼 만들어야 한다.

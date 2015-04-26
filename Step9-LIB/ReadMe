@@ -1,0 +1,3 @@
+// cl add.c \c
+// cl sub.c \c
+//lib add.obj sub.obj /out:math.lib

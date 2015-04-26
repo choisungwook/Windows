@@ -1,0 +1,23 @@
+//math.h
+
+//math.lib 제작자는 사용자를 위해서
+//함수 선언을 담고 있는 헤더를 제공해야 한다.
+
+//extern "C" : c++ 컴파일러에게 C함수라고 알려주는것
+//심볼(함수, 변수 이름)의 name mangling을 막을때 사용
+//
+
+//모든 C++컴파일러는 __cplusplus라는 매크로가 정의되어 있습니다.
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+	int add(int a, int b);
+	int sub(int a, int b);
+#ifdef __cplusplus
+}
+#endif
+
+//결론 c/c++에서 모두 사용가능한 라이브러리를 만들려면
+//1. 라이브러리 자체는 .c로해서 name mangling을 막고
+//2. 헤더는 c/c++ 사용자를 모두 고려해서 위처럼 만들어야 한다.

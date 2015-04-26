@@ -9,3 +9,7 @@ InterlockedIncrement.c - 적은 내용으로 임계영역을 막기 위해 어�
 TLS(Thread local Sotrage), TSS(Thread Specific Sotrage)
 스레드당 한개의 static 메모리 공간
 모든 OS가 지원한다.(java,c#등에도 있는 개념)
+lock Free : 락(동기화객체)를 사용하지 말자는것
+실전 : OS의 동기화 도구를 사용하지 말자
+CPU의 기본 lock명령만으로 멀티스레드에 안전한
+자료구조를 만드는 개념
